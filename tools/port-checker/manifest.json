@@ -1,0 +1,54 @@
+{
+  "id": "port-checker",
+  "name": "Port Occupation Checker",
+  "version": "1.0.0",
+  "description": "Find which process is occupying a network port. Shows PID, process name, and path. Optionally kill the process.",
+  "category": "system",
+  "tags": ["port", "network", "process", "kill", "troubleshoot"],
+  "mode": "cli",
+  "runtime": {
+    "type": "powershell",
+    "entry": "port-check.ps1",
+    "timeout": 15000
+  },
+  "inputs": [
+    {
+      "key": "port",
+      "label": "Port Number",
+      "type": "number",
+      "required": true,
+      "default": 3000,
+      "min": 1,
+      "max": 65535,
+      "help": "The TCP port number to check (1-65535)"
+    },
+    {
+      "key": "kill",
+      "label": "Kill the occupying process",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "help": "⚠️ WARNING: When enabled, will forcefully terminate the process occupying this port. Leave disabled to only detect."
+    },
+    {
+      "key": "force",
+      "label": "Force Kill (no confirmation)",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "help": "Skip confirmation prompt when killing. Only effective when Kill is enabled."
+    }
+  ],
+  "outputs": [
+    { "type": "text", "label": "Port occupation report" }
+  ],
+  "ui": {
+    "icon": "terminal",
+    "color": "#ef4444",
+    "layout": "form"
+  },
+  "adapter": {
+    "input": { "format": "text" },
+    "output": { "format": "text" }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "id": "file-lock-detector",
+  "name": "File Lock Detector",
+  "version": "1.0.0",
+  "description": "Detect which process is locking a file or folder, preventing deletion or modification. Optionally kill the locking process.",
+  "category": "system",
+  "tags": ["file", "lock", "process", "handle", "troubleshoot"],
+  "mode": "cli",
+  "runtime": {
+    "type": "powershell",
+    "entry": "file-lock.ps1",
+    "timeout": 15000
+  },
+  "inputs": [
+    {
+      "key": "path",
+      "label": "File or Folder Path",
+      "type": "string",
+      "required": true,
+      "placeholder": "D:\\path\\to\\locked_file.txt",
+      "help": "Full path to the locked file or folder"
+    },
+    {
+      "key": "recursive",
+      "label": "Check all files in folder (recursive)",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "help": "When checking a folder, scan all files inside recursively"
+    },
+    {
+      "key": "kill",
+      "label": "Kill the locking process",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "help": "⚠️ When enabled, will terminate the process holding the file lock"
+    }
+  ],
+  "outputs": [
+    { "type": "text", "label": "File lock report" }
+  ],
+  "ui": {
+    "icon": "terminal",
+    "color": "#f59e0b",
+    "layout": "form"
+  },
+  "adapter": {
+    "input": { "format": "text" },
+    "output": { "format": "text" }
+  }
+}

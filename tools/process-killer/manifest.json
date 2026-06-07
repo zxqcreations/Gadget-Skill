@@ -1,0 +1,72 @@
+{
+  "id": "process-killer",
+  "name": "Process Killer",
+  "version": "1.0.0",
+  "description": "Find and kill processes by name, PID, or pattern. Supports force kill, process tree kill, and batch operations.",
+  "category": "system",
+  "tags": ["process", "kill", "task", "manager", "troubleshoot"],
+  "mode": "cli",
+  "runtime": {
+    "type": "powershell",
+    "entry": "kill-proc.ps1",
+    "timeout": 15000
+  },
+  "inputs": [
+    {
+      "key": "target",
+      "label": "Process Name or PID",
+      "type": "string",
+      "required": true,
+      "placeholder": "node or chrome or 12345",
+      "help": "Process name (partial match, e.g. 'node') or exact PID (e.g. '12345')"
+    },
+    {
+      "key": "mode",
+      "label": "Match Mode",
+      "type": "select",
+      "required": false,
+      "default": "name",
+      "options": [
+        { "label": "By Name (partial match)", "value": "name" },
+        { "label": "By PID (exact match)", "value": "pid" },
+        { "label": "By Name (exact match)", "value": "exact" }
+      ]
+    },
+    {
+      "key": "kill",
+      "label": "Kill immediately (uncheck to list only)",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "help": "⚠️ Uncheck to only find/list processes. Check to kill them."
+    },
+    {
+      "key": "force",
+      "label": "Force Kill (no confirmation)",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "help": "Skip confirmation. Only effective when Kill is enabled."
+    },
+    {
+      "key": "kill_tree",
+      "label": "Kill Process Tree (children too)",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "help": "Also kill all child processes. Only effective when Kill is enabled."
+    }
+  ],
+  "outputs": [
+    { "type": "text", "label": "Kill report" }
+  ],
+  "ui": {
+    "icon": "terminal",
+    "color": "#ef4444",
+    "layout": "form"
+  },
+  "adapter": {
+    "input": { "format": "text" },
+    "output": { "format": "text" }
+  }
+}

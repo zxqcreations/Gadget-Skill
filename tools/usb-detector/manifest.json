@@ -1,0 +1,59 @@
+{
+  "id": "usb-detector",
+  "name": "USB Drive Occupation Detector",
+  "version": "1.0.0",
+  "description": "Detect which processes are accessing USB drives, preventing safe ejection. Find the culprit and optionally kill it.",
+  "category": "system",
+  "tags": ["usb", "drive", "eject", "process", "troubleshoot"],
+  "mode": "cli",
+  "runtime": {
+    "type": "powershell",
+    "entry": "usb-check.ps1",
+    "timeout": 20000
+  },
+  "inputs": [
+    {
+      "key": "drive",
+      "label": "Drive Letter (leave empty to list all USB drives)",
+      "type": "select",
+      "required": false,
+      "options": [
+        { "label": "Auto-detect all USB drives", "value": "auto" },
+        { "label": "D:", "value": "D:" },
+        { "label": "E:", "value": "E:" },
+        { "label": "F:", "value": "F:" },
+        { "label": "G:", "value": "G:" },
+        { "label": "H:", "value": "H:" }
+      ],
+      "help": "Choose a specific drive letter, or auto-detect all USB drives"
+    },
+    {
+      "key": "kill",
+      "label": "Kill blocking processes",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "help": "⚠️ Terminate processes that are blocking USB ejection"
+    },
+    {
+      "key": "eject",
+      "label": "Attempt Safe Eject after killing",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "help": "After killing blocking processes, attempt to safely eject the USB drive"
+    }
+  ],
+  "outputs": [
+    { "type": "text", "label": "USB occupation report" }
+  ],
+  "ui": {
+    "icon": "terminal",
+    "color": "#3b82f6",
+    "layout": "form"
+  },
+  "adapter": {
+    "input": { "format": "text" },
+    "output": { "format": "text" }
+  }
+}

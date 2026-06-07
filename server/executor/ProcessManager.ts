@@ -121,7 +121,7 @@ export class ProcessManager {
     const paramsJsonPath = path.join(toolPath, '.gadget-params.json');
     if (manifest.runtime.type === 'powershell') {
       fs.writeFileSync(paramsJsonPath, JSON.stringify(params), 'utf-8');
-      args.push('--gadget-params', paramsJsonPath);
+      args.push('-gadget_params', paramsJsonPath);
     } else {
       for (const input of manifest.inputs) {
         const value = params[input.key];
@@ -147,7 +147,7 @@ export class ProcessManager {
         const proc = spawn(command, args, {
           cwd: toolPath,
           env,
-          shell: manifest.runtime.type === 'shell' || manifest.runtime.type === 'powershell',
+          shell: manifest.runtime.type === 'shell',
         });
 
         this.running.set(record.id, {
