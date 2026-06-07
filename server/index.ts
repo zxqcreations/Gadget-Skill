@@ -13,6 +13,7 @@ import toolRoutes from './api/toolRoutes';
 import executeRoutes from './api/executeRoutes';
 import workflowRoutes from './api/workflowRoutes';
 import claudeRoutes from './api/claudeRoutes';
+import fileRoutes from './api/fileRoutes';
 
 const app = express();
 const server = createServer(app);
@@ -27,6 +28,7 @@ app.use('/api/tools', toolRoutes);
 app.use('/api/execute', executeRoutes);
 app.use('/api/workflows', workflowRoutes);
 app.use('/api/claude', claudeRoutes);
+app.use('/api/files', fileRoutes);
 
 // ========== System routes ==========
 app.get('/api/health', (_req, res) => {

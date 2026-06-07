@@ -127,3 +127,47 @@ export async function fetchConfig(): Promise<ApiResponse<Record<string, unknown>
 export async function updateConfig(data: Record<string, unknown>): Promise<ApiResponse<Record<string, unknown>>> {
   return request('/config', { method: 'PUT', body: JSON.stringify(data) });
 }
+
+// ---- Files ----
+
+export interface FileEntry {
+  name: string;
+  type: 'file' | 'directory';
+  size: number;
+  modifiedAt: string;
+}
+
+export async function fetchFileList(dir?: string): Promise<ApiResponse<{ path: string; entries: FileEntry[] }>> {
+  const qs = dir ? `?dir=${encodeURIComponent(dir)}` : '';
+  return request(`/files/list${qs}`);
+}
+
+export async function uploadFiles(files: FileList | File[], dir?: string): Promise<ApiResponse<{ uploaded: { name: string; size: number; path: string }[] }>> {
+  const formData = new FormData();
+  for (const file of Array.from(files)) {
+    formData.append('files', file);
+  }
+  const qs = dir ? `?dir=${encodeURIComponent(dir)}` : '';
+  const res = await fetch(`/api/files/upload${qs}`, { method: 'POST', body: formData });
+  return res.json();
+}
+
+export function getFileDownloadUrl(filePath: string): string {
+  return `/api/files/download?path=${encodeURIComponent(filePath)}`;
+}
+
+export async function deleteFile(filePath: string): Promise<ApiResponse<{ path: string }>> {
+  return request(`/files/delete?path=${encodeURIComponent(filePath)}`, { method: 'DELETE' });
+}
+
+export async function createDirectory(dir: string): Promise<ApiResponse<{ path: string }>> {
+  return request('/files/mkdir', { method: 'POST', body: JSON.stringify({ dir }) });
+}
+
+export async function readFileContent(filePath: string): Promise<ApiResponse<{ path: string; content: string; size: number }>> {
+  return request(`/files/read?path=${encodeURIComponent(filePath)}`);
+}
+
+export async function writeFileContent(filePath: string, content: string): Promise<ApiResponse<{ path: string }>> {
+  return request('/files/write', { method: 'POST', body: JSON.stringify({ path: filePath, content }) });
+}

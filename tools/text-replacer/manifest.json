@@ -1,0 +1,88 @@
+{
+  "id": "text-replacer",
+  "name": "Text Find & Replace",
+  "version": "1.0.0",
+  "description": "Find and replace text across multiple files using literal or regex patterns. Preview changes before applying.",
+  "category": "text",
+  "tags": ["text", "replace", "regex", "batch", "files"],
+  "mode": "cli",
+  "runtime": {
+    "type": "python",
+    "entry": "replace.py",
+    "timeout": 30000
+  },
+  "inputs": [
+    {
+      "key": "folder",
+      "label": "Target Folder",
+      "type": "folder",
+      "required": true,
+      "help": "Folder containing files to process"
+    },
+    {
+      "key": "find",
+      "label": "Find Text",
+      "type": "string",
+      "required": true,
+      "placeholder": "Text or regex pattern to find"
+    },
+    {
+      "key": "replace",
+      "label": "Replace With",
+      "type": "string",
+      "required": true,
+      "placeholder": "Replacement text"
+    },
+    {
+      "key": "use_regex",
+      "label": "Use Regex",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "help": "Treat 'Find Text' as a regular expression"
+    },
+    {
+      "key": "file_pattern",
+      "label": "File Filter",
+      "type": "string",
+      "required": false,
+      "default": "*.txt",
+      "placeholder": "*.txt, *.md, *.html",
+      "help": "Glob pattern to filter files (e.g., *.txt, *.md). Use * for all files."
+    },
+    {
+      "key": "recursive",
+      "label": "Include Subdirectories",
+      "type": "boolean",
+      "required": false,
+      "default": false
+    },
+    {
+      "key": "dry_run",
+      "label": "Preview Only (Dry Run)",
+      "type": "boolean",
+      "required": false,
+      "default": true,
+      "help": "Show what would be changed without modifying files"
+    },
+    {
+      "key": "case_sensitive",
+      "label": "Case Sensitive",
+      "type": "boolean",
+      "required": false,
+      "default": true
+    }
+  ],
+  "outputs": [
+    { "type": "text", "label": "Replacement summary" }
+  ],
+  "ui": {
+    "icon": "terminal",
+    "color": "#06b6d4",
+    "layout": "form"
+  },
+  "adapter": {
+    "input": { "format": "text" },
+    "output": { "format": "text" }
+  }
+}

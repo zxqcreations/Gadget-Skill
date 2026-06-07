@@ -1,0 +1,66 @@
+{
+  "id": "batch-rename",
+  "name": "Batch File Rename",
+  "version": "1.0.0",
+  "description": "Batch rename files using regular expressions. Preview changes before applying.",
+  "category": "system",
+  "tags": ["file", "rename", "regex", "batch"],
+  "mode": "cli",
+  "runtime": {
+    "type": "powershell",
+    "entry": "rename.ps1",
+    "timeout": 30000
+  },
+  "inputs": [
+    {
+      "key": "folder",
+      "label": "Target Folder",
+      "type": "folder",
+      "required": true,
+      "help": "Folder containing files to rename"
+    },
+    {
+      "key": "pattern",
+      "label": "Find Pattern (Regex)",
+      "type": "string",
+      "required": true,
+      "placeholder": "e.g., IMG_(\\d+)\\.jpg",
+      "help": "Regular expression to match filenames. Use capture groups for replacement."
+    },
+    {
+      "key": "replacement",
+      "label": "Replacement",
+      "type": "string",
+      "required": true,
+      "placeholder": "e.g., Photo_$1.jpg",
+      "help": "Replacement pattern. $1, $2... refer to capture groups in the regex."
+    },
+    {
+      "key": "recursive",
+      "label": "Include Subdirectories",
+      "type": "boolean",
+      "required": false,
+      "default": false
+    },
+    {
+      "key": "dry_run",
+      "label": "Preview Only (Dry Run)",
+      "type": "boolean",
+      "required": false,
+      "default": true,
+      "help": "When enabled, shows what would be renamed without actually renaming files."
+    }
+  ],
+  "outputs": [
+    { "type": "text", "label": "Rename results" }
+  ],
+  "ui": {
+    "icon": "terminal",
+    "color": "#f59e0b",
+    "layout": "form"
+  },
+  "adapter": {
+    "input": { "format": "text" },
+    "output": { "format": "text" }
+  }
+}

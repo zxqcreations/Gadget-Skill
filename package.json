@@ -15,8 +15,10 @@
     "uninstall-service": "node scripts/uninstall-service.js"
   },
   "dependencies": {
+    "@types/multer": "^2.1.0",
     "cors": "^2.8.5",
     "express": "^4.21.0",
+    "multer": "^2.1.1",
     "uuid": "^10.0.0",
     "ws": "^8.18.0"
   },

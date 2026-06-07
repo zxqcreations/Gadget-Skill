@@ -1,0 +1,74 @@
+{
+  "id": "format-converter",
+  "name": "Format Converter",
+  "version": "1.0.0",
+  "description": "Convert between JSON, CSV, YAML, and XML data formats. Paste data or provide a file.",
+  "category": "data",
+  "tags": ["json", "csv", "yaml", "xml", "convert", "format"],
+  "mode": "cli",
+  "runtime": {
+    "type": "python",
+    "entry": "convert.py",
+    "timeout": 15000
+  },
+  "inputs": [
+    {
+      "key": "input_type",
+      "label": "Input Format",
+      "type": "select",
+      "required": true,
+      "options": [
+        { "label": "JSON", "value": "json" },
+        { "label": "CSV", "value": "csv" },
+        { "label": "YAML", "value": "yaml" },
+        { "label": "XML", "value": "xml" }
+      ]
+    },
+    {
+      "key": "output_type",
+      "label": "Output Format",
+      "type": "select",
+      "required": true,
+      "options": [
+        { "label": "JSON", "value": "json" },
+        { "label": "CSV", "value": "csv" },
+        { "label": "YAML", "value": "yaml" },
+        { "label": "XML", "value": "xml" }
+      ]
+    },
+    {
+      "key": "input_data",
+      "label": "Input Data (paste directly)",
+      "type": "text",
+      "required": false,
+      "placeholder": "Paste JSON/CSV/YAML/XML here, or leave empty to use file input.",
+      "help": "Paste data directly, OR use the file input below. Direct paste takes priority."
+    },
+    {
+      "key": "input_file",
+      "label": "Input File (alternative)",
+      "type": "file",
+      "required": false,
+      "accept": ".json,.csv,.yaml,.yml,.xml"
+    },
+    {
+      "key": "pretty",
+      "label": "Pretty Print Output",
+      "type": "boolean",
+      "required": false,
+      "default": true
+    }
+  ],
+  "outputs": [
+    { "type": "text", "label": "Converted output" }
+  ],
+  "ui": {
+    "icon": "git-merge",
+    "color": "#3b82f6",
+    "layout": "form"
+  },
+  "adapter": {
+    "input": { "format": "text" },
+    "output": { "format": "text" }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "id": "encoding-converter",
+  "name": "File Encoding Converter",
+  "version": "1.0.0",
+  "description": "Convert text file encoding between UTF-8, GBK, Shift-JIS, Latin-1, and more. Auto-detect source encoding.",
+  "category": "text",
+  "tags": ["encoding", "utf8", "gbk", "convert", "text"],
+  "mode": "cli",
+  "runtime": {
+    "type": "python",
+    "entry": "encode.py",
+    "timeout": 15000
+  },
+  "inputs": [
+    {
+      "key": "input_file",
+      "label": "Input File",
+      "type": "file",
+      "required": true,
+      "help": "The file to convert"
+    },
+    {
+      "key": "to_encoding",
+      "label": "Target Encoding",
+      "type": "select",
+      "required": true,
+      "default": "utf-8",
+      "options": [
+        { "label": "UTF-8", "value": "utf-8" },
+        { "label": "UTF-8 with BOM", "value": "utf-8-sig" },
+        { "label": "UTF-16", "value": "utf-16" },
+        { "label": "GBK (Chinese)", "value": "gbk" },
+        { "label": "GB2312 (Chinese)", "value": "gb2312" },
+        { "label": "Shift-JIS (Japanese)", "value": "shift_jis" },
+        { "label": "Latin-1 (Western)", "value": "latin-1" },
+        { "label": "ASCII", "value": "ascii" },
+        { "label": "Windows-1252", "value": "cp1252" }
+      ]
+    },
+    {
+      "key": "from_encoding",
+      "label": "Source Encoding (auto-detect if empty)",
+      "type": "select",
+      "required": false,
+      "options": [
+        { "label": "Auto-detect", "value": "auto" },
+        { "label": "UTF-8", "value": "utf-8" },
+        { "label": "GBK (Chinese)", "value": "gbk" },
+        { "label": "Shift-JIS (Japanese)", "value": "shift_jis" },
+        { "label": "Latin-1 (Western)", "value": "latin-1" },
+        { "label": "ASCII", "value": "ascii" }
+      ]
+    }
+  ],
+  "outputs": [
+    { "type": "file", "label": "Converted file" }
+  ],
+  "ui": {
+    "icon": "git-merge",
+    "color": "#8b5cf6",
+    "layout": "form"
+  },
+  "adapter": {
+    "input": { "format": "file" },
+    "output": { "format": "file" }
+  }
+}

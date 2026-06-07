@@ -1,0 +1,52 @@
+{
+  "id": "ra2-map-validator-fix",
+  "name": "RA2/YR Map Validator (Line-Based Fix)",
+  "version": "1.0.0",
+  "description": "Validate and auto-repair RA2/YR maps using line-based pattern matching. Checks 9 categories: Basic section, map dimensions, waypoints, object coordinates, building overlaps, trigger integrity, AI team references, house integrity, and terrain data.",
+  "category": "data",
+  "tags": ["ra2", "yr", "map", "validator", "fix", "red-alert", "dotnet"],
+  "mode": "cli",
+  "runtime": {
+    "type": "powershell",
+    "entry": "wrapper.ps1",
+    "timeout": 600000
+  },
+  "inputs": [
+    {
+      "key": "path",
+      "label": "Map Path",
+      "type": "folder",
+      "required": true,
+      "placeholder": "Path to .yrm/.map file or folder",
+      "help": "A single .yrm/.map file or a folder containing map files to validate and fix"
+    },
+    {
+      "key": "recursive",
+      "label": "Recursive Scan",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "help": "Recursively scan subfolders for map files"
+    },
+    {
+      "key": "quiet",
+      "label": "Quiet Mode",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "help": "Only output summary, suppress per-file details"
+    }
+  ],
+  "outputs": [
+    { "type": "text", "label": "Validation results with fix summary" }
+  ],
+  "ui": {
+    "icon": "wrench",
+    "color": "#3b82f6",
+    "layout": "form"
+  },
+  "adapter": {
+    "input": { "format": "text" },
+    "output": { "format": "text" }
+  }
+}

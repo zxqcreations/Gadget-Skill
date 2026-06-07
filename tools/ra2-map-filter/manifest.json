@@ -1,0 +1,44 @@
+{
+  "id": "ra2-map-filter",
+  "name": "RA2/YR Map Filter",
+  "version": "1.0.0",
+  "description": "Scan and filter RA2/YR .yrm/.map files by criteria: name validity, game mode, max players, campaign detection, and mojibake filtering",
+  "category": "data",
+  "tags": ["ra2", "yr", "map", "filter", "red-alert", "powershell"],
+  "mode": "cli",
+  "runtime": {
+    "type": "powershell",
+    "entry": "wrapper.ps1",
+    "timeout": 600000
+  },
+  "inputs": [
+    {
+      "key": "folder",
+      "label": "Map Folder",
+      "type": "folder",
+      "required": false,
+      "placeholder": "Path to folder containing .yrm/.map files",
+      "help": "Folder containing RA2/YR map files. Defaults to ./map under the script directory."
+    },
+    {
+      "key": "whatif",
+      "label": "Preview Only",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "help": "Preview mode — show what would be moved without actually moving files"
+    }
+  ],
+  "outputs": [
+    { "type": "text", "label": "Scan results with PASS/FAIL/SKIP summary" }
+  ],
+  "ui": {
+    "icon": "filter",
+    "color": "#f59e0b",
+    "layout": "form"
+  },
+  "adapter": {
+    "input": { "format": "text" },
+    "output": { "format": "text" }
+  }
+}

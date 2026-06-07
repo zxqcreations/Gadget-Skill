@@ -69,10 +69,14 @@ export class ProcessManager {
     const fs = await import('fs');
     const toolDir = config.toolsDir;
     const toolPath = path.join(toolDir, manifest.id);
-    const entryPath = path.join(toolPath, manifest.runtime.entry);
+
+    // For custom/powershell runtimes, the entry is "command args" — extract script path
+    const entryParts = manifest.runtime.entry.split(' ');
+    const scriptFile = entryParts.length > 1 ? entryParts[entryParts.length - 1] : entryParts[0];
+    const entryPath = path.join(toolPath, scriptFile);
 
     if (!fs.existsSync(entryPath)) {
-      return this.finishExecution(record, 'failed', `Entry file not found: ${manifest.runtime.entry}`);
+      return this.finishExecution(record, 'failed', `Entry file not found: ${scriptFile}`);
     }
 
     const logStream = fs.createWriteStream(logPath, { flags: 'a' });
@@ -94,6 +98,10 @@ export class ProcessManager {
         command = 'bash';
         args = [entryPath];
         break;
+      case 'powershell':
+        command = 'pwsh';
+        args = ['-File', entryPath];
+        break;
       case 'binary':
         command = entryPath;
         args = [];
@@ -108,14 +116,21 @@ export class ProcessManager {
       args.push(...manifest.runtime.args);
     }
 
-    // Convert params to CLI arguments
-    for (const input of manifest.inputs) {
-      const value = params[input.key];
-      if (value !== undefined && value !== null) {
-        if (input.type === 'boolean') {
-          if (value) args.push(`--${input.key}`);
-        } else {
-          args.push(`--${input.key}`, String(value));
+    // For PowerShell runtime: pass params via JSON file to avoid Windows encoding issues
+    // For all others: pass as CLI arguments directly
+    const paramsJsonPath = path.join(toolPath, '.gadget-params.json');
+    if (manifest.runtime.type === 'powershell') {
+      fs.writeFileSync(paramsJsonPath, JSON.stringify(params), 'utf-8');
+      args.push('--gadget-params', paramsJsonPath);
+    } else {
+      for (const input of manifest.inputs) {
+        const value = params[input.key];
+        if (value !== undefined && value !== null) {
+          if (input.type === 'boolean') {
+            if (value) args.push(`--${input.key}`);
+          } else {
+            args.push(`--${input.key}`, String(value));
+          }
         }
       }
     }
@@ -132,7 +147,7 @@ export class ProcessManager {
         const proc = spawn(command, args, {
           cwd: toolPath,
           env,
-          shell: manifest.runtime.type === 'shell',
+          shell: manifest.runtime.type === 'shell' || manifest.runtime.type === 'powershell',
         });
 
         this.running.set(record.id, {

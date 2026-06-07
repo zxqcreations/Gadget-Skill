@@ -4,12 +4,14 @@ import Dashboard from './pages/Dashboard';
 import ToolList from './pages/ToolList';
 import ToolDetail from './pages/ToolDetail';
 import WorkflowEditor from './pages/WorkflowEditor';
+import FileBrowser from './pages/FileBrowser';
 import Settings from './pages/Settings';
 
 const navItems = [
   { to: '/', label: 'Dashboard', icon: '📊' },
   { to: '/tools', label: 'Tools', icon: '🔧' },
   { to: '/workflows', label: 'Workflows', icon: '🔗' },
+  { to: '/files', label: 'Files', icon: '📂' },
   { to: '/settings', label: 'Settings', icon: '⚙️' },
 ];
 
@@ -48,6 +50,7 @@ export default function App() {
           <Route path="/tools/:id" element={<ToolDetail />} />
           <Route path="/workflows" element={<WorkflowEditor />} />
           <Route path="/workflows/:id" element={<WorkflowEditor />} />
+          <Route path="/files" element={<FileBrowser />} />
           <Route path="/settings" element={<Settings />} />
         </Routes>
       </main>
