@@ -14,8 +14,10 @@ export default function ExecutionLog({ executionId, autoConnect = false }: Props
   useEffect(() => {
     if (!autoConnect) return;
 
+    // Connect directly to backend (avoid Vite HMR WebSocket proxy conflict)
+    const backendPort = 3000;
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const ws = new WebSocket(`${protocol}//${window.location.host}/ws?executionId=${executionId}`);
+    const ws = new WebSocket(`${protocol}//${window.location.hostname}:${backendPort}/ws?executionId=${executionId}`);
 
     ws.onmessage = (event) => {
       try {
