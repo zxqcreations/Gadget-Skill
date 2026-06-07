@@ -1,0 +1,56 @@
+{
+  "id": "hello-world",
+  "name": "Hello World",
+  "version": "1.0.0",
+  "description": "A simple greeting script that demonstrates the tool registration system",
+  "category": "dev",
+  "tags": ["demo", "greeting", "cli"],
+  "mode": "cli",
+  "runtime": {
+    "type": "python",
+    "entry": "hello.py",
+    "timeout": 5000
+  },
+  "inputs": [
+    {
+      "key": "name",
+      "label": "Your Name",
+      "type": "string",
+      "required": true,
+      "placeholder": "Enter your name",
+      "help": "The name to greet"
+    },
+    {
+      "key": "times",
+      "label": "Repeat",
+      "type": "number",
+      "required": false,
+      "default": 1,
+      "min": 1,
+      "max": 10,
+      "help": "How many times to repeat the greeting"
+    },
+    {
+      "key": "uppercase",
+      "label": "Uppercase",
+      "type": "boolean",
+      "required": false,
+      "default": false
+    }
+  ],
+  "outputs": [
+    {
+      "type": "text",
+      "label": "Greeting message"
+    }
+  ],
+  "ui": {
+    "icon": "hand",
+    "color": "#22c55e",
+    "layout": "form"
+  },
+  "adapter": {
+    "input": { "format": "text" },
+    "output": { "format": "text" }
+  }
+}
